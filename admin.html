@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assureso – Administration</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0D2B4E;
+    --accent: #00C2A8;
+    --bg: #F4F6FA;
+    --card-bg: #FFFFFF;
+    --text: #1A1A2E;
+    --border: #E2E8F4;
+    --shadow: 0 4px 24px rgba(13,43,78,0.10);
+    --radius: 14px;
+    --danger: #ef4444;
+    --success: #22c55e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* LOGIN */
+  #loginScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--primary);
+  }
+  .login-box {
+    background: white;
+    border-radius: 20px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  .login-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .login-logo span { color: var(--accent); }
+  .login-sub {
+    color: #6B7A99;
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .login-box input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .login-box input:focus { border-color: var(--accent); }
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .login-btn:hover { background: var(--accent); }
+  .login-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ADMIN */
+  #adminScreen { display: none; }
+
+  .topbar {
+    background: var(--primary);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+  }
+  .topbar-logo span { color: var(--accent); }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn-logout {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-logout:hover { background: rgba(255,255,255,0.25); }
+
+  .admin-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 20px;
+  }
+
+  /* FORMULAIRE */
+  .form-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    font-family: 'Syne', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s;
+    color: var(--text);
+    background: white;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-group .hint {
+    font-size: 12px;
+    color: #6B7A99;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--primary);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--primary); }
+
+  /* LISTE DES POSTS */
+  .posts-list { display: flex; flex-direction: column; gap: 16px; }
+  .post-item {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s;
+  }
+  .post-item:hover { transform: translateX(4px); }
+  .post-thumb {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg);
+  }
+  .post-info { flex: 1; }
+  .post-tag {
+    display: inline-block;
+    background: #EBF4FF;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+  .post-preview-text {
+    font-size: 13px;
+    color: #6B7A99;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+  }
+  .post-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn-edit {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-edit:hover { background: var(--accent); }
+  .btn-delete {
+    background: #FEE2E2;
+    color: var(--danger);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-delete:hover { background: var(--danger); color: white; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 9999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px;
+    color: #6B7A99;
+    font-size: 15px;
+  }
+
+  /* EXPORT */
+  .export-section {
+    background: #EBF4FF;
+    border: 2px dashed #0D2B4E33;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .export-text { font-size: 14px; color: var(--primary); }
+  .export-text strong { font-family: 'Syne', sans-serif; display: block; margin-bottom: 4px; }
+  .btn-export {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .btn-export:hover { opacity: 0.85; }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .post-item { flex-wrap: wrap; }
+    .export-section { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ÉCRAN DE CONNEXION -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Assure<span>so</span></div>
+    <div class="login-sub">Espace administration</div>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter') login()">
+    <button class="login-btn" onclick="login()">Se connecter</button>
+    <div class="login-error" id="loginError">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<!-- ÉCRAN ADMIN -->
+<div id="adminScreen">
+  <div class="topbar">
+    <div class="topbar-logo">Assure<span>so</span> <span style="font-weight:400;font-size:14px;opacity:0.7">/ Admin</span></div>
+    <div class="topbar-right">
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- EXPORT -->
+    <div class="export-section">
+      <div class="export-text">
+        <strong>📥 Mettre à jour la page clients</strong>
+        Après avoir ajouté ou modifié des posts, télécharge le fichier et remplace-le sur GitHub.
+      </div>
+      <button class="btn-export" onclick="exportHTML()">⬇️ Télécharger le fichier client</button>
+    </div>
+
+    <!-- FORMULAIRE -->
+    <div class="section-title" id="formTitle">➕ Ajouter un post</div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Thématique</label>
+          <select id="fThematique">
+            <option>Prévoyance</option>
+            <option>Habitation</option>
+            <option>Retraite</option>
+            <option>Auto</option>
+            <option>Santé</option>
+            <option>Professionnelle</option>
+            <option>Patrimoine</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>URL de l'image</label>
+          <input type="url" id="fImage" placeholder="https://static.wixstatic.com/media/...">
+          <span class="hint">Copie le lien de ton image depuis Wix Media</span>
+        </div>
+        <div class="form-group full">
+          <label>Aperçu (2-3 lignes affichées sur la carte)</label>
+          <input type="text" id="fPreview" placeholder="Courte accroche visible avant le 'Voir +'...">
+        </div>
+        <div class="form-group full">
+          <label>Texte complet du post</label>
+          <textarea id="fFullText" rows="8" placeholder="Colle ici le texte complet du post réseaux sociaux, avec les emojis et hashtags..."></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="savePost()">✅ Enregistrer le post</button>
+        <button class="btn-secondary" onclick="resetForm()">Annuler</button>
+      </div>
+    </div>
+
+    <!-- LISTE -->
+    <div class="section-title">📋 Posts publiés (<span id="postCount">0</span>)</div>
+    <div class="posts-list" id="postsList"></div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  MOT DE PASSE
+// ============================================================
+const PASSWORD = "#Jeremy@66";
+
+// ============================================================
+//  DONNÉES
+// ============================================================
+let posts = JSON.parse(localStorage.getItem('assureso_posts') || '[]');
+let editingId = null;
+
+// ============================================================
+//  LOGIN
+// ============================================================
+function login() {
+  const val = document.getElementById('passwordInput').value;
+  if (val === PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    renderPosts();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminScreen').style.display = 'none';
+  document.getElementById('passwordInput').value = '';
+}
+
+// ============================================================
+//  SAUVEGARDER UN POST
+// ============================================================
+function savePost() {
+  const thematique = document.getElementById('fThematique').value.trim();
+  const image = document.getElementById('fImage').value.trim();
+  const preview = document.getElementById('fPreview').value.trim();
+  const fullText = document.getElementById('fFullText').value.trim();
+
+  if (!thematique || !preview || !fullText) {
+    showToast('⚠️ Remplis au minimum la thématique, l\'aperçu et le texte complet.');
+    return;
+  }
+
+  if (editingId !== null) {
+    const idx = posts.findIndex(p => p.id === editingId);
+    if (idx !== -1) {
+      posts[idx] = { id: editingId, thematique, image, imageUrl: image, preview, fullText };
+    }
+    editingId = null;
+    document.getElementById('formTitle').textContent = '➕ Ajouter un post';
+  } else {
+    const id = Date.now();
+    posts.push({ id, thematique, image, imageUrl: image, preview, fullText });
+  }
+
+  localStorage.setItem('assureso_posts', JSON.stringify(posts));
+  resetForm();
+  renderPosts();
+  showToast('✅ Post enregistré ! N\'oublie pas de télécharger le fichier client.');
+}
+
+// ============================================================
+//  MODIFIER UN POST
+// ============================================================
+function editPost(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  editingId = id;
+  document.getElementById('fThematique').value = post.thematique;
+  document.getElementById('fImage').value = post.image || '';
+  document.getElementById('fPreview').value = post.preview;
+  document.getElementById('fFullText').value = post.fullText;
+  document.getElementById('formTitle').textContent = '✏️ Modifier le post';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+//  SUPPRIMER UN POST
+// ============================================================
+function deletePost(id) {
+  if (!confirm('Supprimer ce post ?')) return;
+  posts = posts.filter(p => p.id !== id);
+  localStorage.setItem('assureso_posts', JSON.stringify(posts));
+  renderPosts();
+  showToast('🗑️ Post supprimé.');
+}
+
+// ============================================================
+//  RESET FORMULAIRE
+// ============================================================
+function resetForm() {
+  editingId = null;
+  document.getElementById('fThematique').value = 'Prévoyance';
+  document.getElementById('fImage').value = '';
+  document.getElementById('fPreview').value = '';
+  document.getElementById('fFullText').value = '';
+  document.getElementById('formTitle').textContent = '➕ Ajouter un post';
+}
+
+// ============================================================
+//  AFFICHER LES POSTS
+// ============================================================
+function renderPosts() {
+  const list = document.getElementById('postsList');
+  document.getElementById('postCount').textContent = posts.length;
+
+  if (posts.length === 0) {
+    list.innerHTML = '<div class="empty-state">Aucun post pour le moment. Ajoute ton premier post ci-dessus ! 👆</div>';
+    return;
+  }
+
+  list.innerHTML = posts.map(post => `
+    <div class="post-item">
+      ${post.image
+        ? `<img class="post-thumb" src="${post.image}" alt="${post.thematique}" onerror="this.style.display='none'">`
+        : `<div class="post-thumb" style="display:flex;align-items:center;justify-content:center;color:#6B7A99;font-size:12px;">Pas d'image</div>`
+      }
+      <div class="post-info">
+        <span class="post-tag">${post.thematique}</span>
+        <div class="post-preview-text">${post.preview}</div>
+      </div>
+      <div class="post-actions">
+        <button class="btn-edit" onclick="editPost(${post.id})">✏️ Modifier</button>
+        <button class="btn-delete" onclick="deletePost(${post.id})">🗑️ Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+//  EXPORTER LE FICHIER CLIENT
+// ============================================================
+function exportHTML() {
+  if (posts.length === 0) {
+    showToast('⚠️ Ajoute au moins un post avant d\'exporter.');
+    return;
+  }
+
+  const postsJSON = JSON.stringify(posts, null, 2);
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assureso – Contenu du mois</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0D2B4E;
+    --accent: #00C2A8;
+    --bg: #F4F6FA;
+    --card-bg: #FFFFFF;
+    --text: #1A1A2E;
+    --border: #E2E8F4;
+    --tag-bg: #EBF4FF;
+    --tag-color: #0D2B4E;
+    --shadow: 0 4px 24px rgba(13,43,78,0.10);
+    --shadow-hover: 0 12px 40px rgba(13,43,78,0.18);
+    --radius: 18px;
+    --linkedin: #0077B5;
+    --facebook: #1877F2;
+    --instagram: #E1306C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 32px 20px; min-height: 100vh; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
+  .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.3s ease, transform 0.3s ease; border: 1px solid var(--border); }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+  .card-image-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; background: #dde3ee; }
+  .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+  .card:hover .card-image-wrap img { transform: scale(1.04); }
+  .btn-download { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); border: none; border-radius: 10px; padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s, color 0.2s; text-decoration: none; }
+  .btn-download:hover { background: var(--accent); color: #fff; }
+  .card-body { padding: 20px 22px 18px; display: flex; flex-direction: column; flex: 1; }
+  .card-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); color: var(--tag-color); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border-radius: 30px; margin-bottom: 14px; width: fit-content; border: 1px solid var(--border); }
+  .card-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .card-preview { font-size: 14px; line-height: 1.65; color: var(--text); font-weight: 400; }
+  .card-full-text { display: none; font-size: 14px; line-height: 1.65; color: var(--text); margin-top: 4px; white-space: pre-wrap; }
+  .card-full-text.visible { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .btn-toggle { background: none; border: none; color: var(--accent); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; padding: 8px 0 0; display: flex; align-items: center; gap: 5px; transition: color 0.2s; width: fit-content; }
+  .btn-toggle:hover { color: var(--primary); }
+  .btn-toggle .arrow { display: inline-block; transition: transform 0.25s ease; }
+  .btn-toggle.open .arrow { transform: rotate(180deg); }
+  .card-sep { height: 1px; background: var(--border); margin: 16px 0; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .btn-copy { display: flex; align-items: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+  .btn-copy:hover { background: var(--accent); }
+  .btn-copy.copied { background: #22c55e; }
+  .social-icons { display: flex; gap: 8px; }
+  .social-btn { width: 34px; height: 34px; border-radius: 9px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, opacity 0.2s; text-decoration: none; }
+  .social-btn:hover { transform: scale(1.1); opacity: 0.9; }
+  .social-btn.linkedin { background: var(--linkedin); }
+  .social-btn.facebook { background: var(--facebook); }
+  .social-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .social-btn svg { fill: #fff; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 9999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="grid" id="contentGrid"></div>
+<div class="toast" id="toast"></div>
+<script>
+const posts = ${postsJSON};
+
+function buildCards() {
+  const grid = document.getElementById('contentGrid');
+  grid.innerHTML = posts.map(post => \`
+    <article class="card">
+      <div class="card-image-wrap">
+        \${post.image ? \`<img src="\${post.image}" alt="\${post.thematique}" loading="lazy">\` : '<div style="height:100%;background:#dde3ee;display:flex;align-items:center;justify-content:center;color:#6B7A99">Pas d\\'image</div>'}
+        \${post.image ? \`<a class="btn-download" href="\${post.imageUrl || post.image}" download="assureso-visuel.jpg" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Télécharger
+        </a>\` : ''}
+      </div>
+      <div class="card-body">
+        <span class="card-tag"><span class="card-tag-dot"></span>\${post.thematique}</span>
+        <p class="card-preview">\${post.preview}</p>
+        <pre class="card-full-text" id="full-\${post.id}">\${post.fullText}</pre>
+        <button class="btn-toggle" id="toggle-\${post.id}" onclick="toggleText(\${post.id})">Voir + <span class="arrow">▾</span></button>
+        <div class="card-sep"></div>
+        <div class="card-footer">
+          <button class="btn-copy" id="copy-\${post.id}" onclick="copyText(\${post.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copier le texte
+          </button>
+          <div class="social-icons">
+            <a class="social-btn linkedin" href="#" onclick="shareLinkedin(\${post.id}); return false;" title="LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a class="social-btn facebook" href="#" onclick="shareFacebook(\${post.id}); return false;" title="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a class="social-btn instagram" href="#" onclick="shareInstagram(\${post.id}); return false;" title="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  \`).join('');
+}
+
+function toggleText(id) {
+  const full = document.getElementById(\`full-\${id}\`);
+  const btn = document.getElementById(\`toggle-\${id}\`);
+  const open = full.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  btn.innerHTML = open ? 'Voir – <span class="arrow">▾</span>' : 'Voir + <span class="arrow">▾</span>';
+}
+
+function copyText(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  navigator.clipboard.writeText(post.fullText).then(() => {
+    const btn = document.getElementById(\`copy-\${id}\`);
+    btn.classList.add('copied');
+    btn.innerHTML = '✅ Copié !';
+    showToast('✅ Texte copié ! Collez-le directement sur votre réseau.');
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier le texte'; }, 2500);
+  });
+}
+
+function shareLinkedin(id) {
+  const post = posts.find(p => p.id === id);
+  window.open(\`https://www.linkedin.com/feed/?shareActive=true&text=\${encodeURIComponent(post.fullText)}\`, '_blank');
+}
+function shareFacebook(id) {
+  const post = posts.find(p => p.id === id);
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre publication Facebook.'); window.open('https://www.facebook.com/', '_blank'); });
+}
+function shareInstagram(id) {
+  const post = posts.find(p => p.id === id);
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre post Instagram.'); window.open('https://www.instagram.com/', '_blank'); });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+buildCards();
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'assureso-content-card.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Fichier téléchargé ! Upload-le sur GitHub pour mettre à jour la page clients.');
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
