@@ -66,9 +66,9 @@
 const posts = [
   {
     "id": 1771911407834,
-    "thematique": "Retraite",
-    "image": "https://static.wixstatic.com/media/c96fd4_5119de90c8ee4d8588004d82de4dad4b~mv2.jpg",
-    "imageUrl": "https://static.wixstatic.com/media/c96fd4_5119de90c8ee4d8588004d82de4dad4b~mv2.jpg",
+    "thematique": "Plan Epargne Retraite",
+    "image": "https://drive.google.com/file/d/1lb8Y2mr6KF8sL3SKCtnYHL5P3H3M9yaz/view?usp=sharing",
+    "imageUrl": "https://drive.google.com/file/d/1lb8Y2mr6KF8sL3SKCtnYHL5P3H3M9yaz/view?usp=sharing",
     "preview": "💰 PER : et si vous transformiez vos impôts en épargne ? Le Plan Épargne Retraite ne sert pas seulement à préparer l’avenir… 👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.",
     "fullText": "💰 PER : et si vous transformiez vos impôts en épargne ?\n\nLe Plan Épargne Retraite ne sert pas seulement à préparer l’avenir…\n👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.\n\nPourquoi s’y intéresser maintenant ?\n✅ Déduction fiscale des versements\n✅ Constitution d’un capital pour la retraite\n✅ Sortie flexible selon vos projets\n\nLe bon réflexe : anticiper tôt pour se laisser le temps de faire travailler son épargne.\nVotre futur vous remerciera 😉\n\n#PER #Epargne #Retraite #Fiscalité #GestionDePatrimoine"
   },
@@ -90,16 +90,29 @@ const posts = [
   }
 ];
 
+function downloadImage(url) {
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = url.split('/').pop();
+      a.click();
+      URL.revokeObjectURL(a.href);
+    })
+    .catch(() => window.open(url, '_blank'));
+}
+
 function buildCards() {
   const grid = document.getElementById('contentGrid');
   grid.innerHTML = posts.map(post => `
     <article class="card">
       <div class="card-image-wrap">
         ${post.image ? `<img src="${post.image}" alt="${post.thematique}" loading="lazy">` : '<div style="height:100%;background:#dde3ee;display:flex;align-items:center;justify-content:center;color:#6B7A99">Pas d\'image</div>'}
-        ${post.image ? `<a class="btn-download" href="${post.imageUrl || post.image}" download="assureso-visuel.jpg" target="_blank">
+        ${post.image ? `<button class="btn-download" onclick="downloadImage('${post.imageUrl || post.image}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Télécharger
-        </a>` : ''}
+        </button>` : ''}
       </div>
       <div class="card-body">
         <span class="card-tag"><span class="card-tag-dot"></span>${post.thematique}</span>
