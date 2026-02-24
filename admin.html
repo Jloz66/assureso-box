@@ -419,9 +419,14 @@
           </select>
         </div>
         <div class="form-group">
-          <label>URL de l'image</label>
-          <input type="url" id="fImage" placeholder="https://static.wixstatic.com/media/...">
-          <span class="hint">Copie le lien de ton image depuis Wix Media</span>
+          <label>URL affichage image (Google Drive)</label>
+          <input type="url" id="fImage" placeholder="https://drive.google.com/thumbnail?id=XXXX&sz=w600">
+          <span class="hint">Remplace XXXX par l'ID de ton fichier Google Drive</span>
+        </div>
+        <div class="form-group">
+          <label>URL téléchargement image (Google Drive)</label>
+          <input type="url" id="fImageUrl" placeholder="https://drive.google.com/uc?export=download&id=XXXX">
+          <span class="hint">Remplace XXXX par l'ID de ton fichier Google Drive</span>
         </div>
         <div class="form-group full">
           <label>Aperçu (2-3 lignes affichées sur la carte)</label>
@@ -485,6 +490,7 @@ function logout() {
 function savePost() {
   const thematique = document.getElementById('fThematique').value.trim();
   const image = document.getElementById('fImage').value.trim();
+  const imageUrl = document.getElementById('fImageUrl').value.trim();
   const preview = document.getElementById('fPreview').value.trim();
   const fullText = document.getElementById('fFullText').value.trim();
 
@@ -496,13 +502,13 @@ function savePost() {
   if (editingId !== null) {
     const idx = posts.findIndex(p => p.id === editingId);
     if (idx !== -1) {
-      posts[idx] = { id: editingId, thematique, image, imageUrl: image, preview, fullText };
+      posts[idx] = { id: editingId, thematique, image, imageUrl: imageUrl || image, preview, fullText };
     }
     editingId = null;
     document.getElementById('formTitle').textContent = '➕ Ajouter un post';
   } else {
     const id = Date.now();
-    posts.push({ id, thematique, image, imageUrl: image, preview, fullText });
+    posts.push({ id, thematique, image, imageUrl: imageUrl || image, preview, fullText });
   }
 
   localStorage.setItem('assureso_posts', JSON.stringify(posts));
@@ -520,6 +526,7 @@ function editPost(id) {
   editingId = id;
   document.getElementById('fThematique').value = post.thematique;
   document.getElementById('fImage').value = post.image || '';
+  document.getElementById('fImageUrl').value = post.imageUrl || '';
   document.getElementById('fPreview').value = post.preview;
   document.getElementById('fFullText').value = post.fullText;
   document.getElementById('formTitle').textContent = '✏️ Modifier le post';
@@ -731,7 +738,7 @@ function copyText(id) {
 
 function shareLinkedin(id) {
   const post = posts.find(p => p.id === id);
-  window.open(\`https://www.linkedin.com/feed/?shareActive=true&text=\${encodeURIComponent(post.fullText)}\`, '_blank');
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre publication LinkedIn.'); window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank'); });
 }
 function shareFacebook(id) {
   const post = posts.find(p => p.id === id);
