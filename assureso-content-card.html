@@ -71,6 +71,22 @@ const posts = [
     "imageUrl": "https://static.wixstatic.com/media/c96fd4_5119de90c8ee4d8588004d82de4dad4b~mv2.jpg",
     "preview": "💰 PER : et si vous transformiez vos impôts en épargne ? Le Plan Épargne Retraite ne sert pas seulement à préparer l’avenir… 👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.",
     "fullText": "💰 PER : et si vous transformiez vos impôts en épargne ?\n\nLe Plan Épargne Retraite ne sert pas seulement à préparer l’avenir…\n👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.\n\nPourquoi s’y intéresser maintenant ?\n✅ Déduction fiscale des versements\n✅ Constitution d’un capital pour la retraite\n✅ Sortie flexible selon vos projets\n\nLe bon réflexe : anticiper tôt pour se laisser le temps de faire travailler son épargne.\nVotre futur vous remerciera 😉\n\n#PER #Epargne #Retraite #Fiscalité #GestionDePatrimoine"
+  },
+  {
+    "id": 1771912560192,
+    "thematique": "Assurance Cyber",
+    "image": "https://static.wixstatic.com/media/c96fd4_8bc0a9f80ec74a2fb86577bf463544a9~mv2.jpg",
+    "imageUrl": "https://static.wixstatic.com/media/c96fd4_8bc0a9f80ec74a2fb86577bf463544a9~mv2.jpg",
+    "preview": "💻 Cyber risque : la menace invisible qui peut coûter très cher… Aujourd’hui, aucune entreprise n’est trop petite pour être ciblée. 👉 Un simple mail frauduleux, 👉 Une facture falsifiée, 👉 Ou un mot de passe compromis",
+    "fullText": "💻 Cyber risque : la menace invisible qui peut coûter très cher…\n\nAujourd’hui, aucune entreprise n’est trop petite pour être ciblée.\n👉 Un simple mail frauduleux,\n👉 Une facture falsifiée,\n👉 Ou un mot de passe compromis…\nEt l’activité peut être fortement perturbée.\n\nQuelques réflexes essentiels :\n✅ Sensibiliser vos équipes aux tentatives de fraude\n✅ Sauvegarder régulièrement vos données\n✅ Vérifier systématiquement les coordonnées bancaires\n✅ Mettre à jour vos systèmes et protections\n\nLe cyber risque n’est plus une option, c’est un enjeu stratégique.\nAnticiper, c’est protéger votre activité, votre image… et votre trésorerie.\n\n#CyberRisque #Assurance #Prévention #Entreprise #SécuritéInformatique"
+  },
+  {
+    "id": 1771912616447,
+    "thematique": "Prévoyance",
+    "image": "https://static.wixstatic.com/media/c96fd4_c5db8a9b45f4433fbf2caacb3a950abe~mv2.jpg",
+    "imageUrl": "https://static.wixstatic.com/media/c96fd4_c5db8a9b45f4433fbf2caacb3a950abe~mv2.jpg",
+    "preview": "🛡️ Prévoyance Madelin : et si votre revenu s’arrêtait demain ? Quand on est indépendant, chef d’entreprise ou profession libérale, personne ne prend le relais en cas d’arrêt de travail…",
+    "fullText": "🛡️ Prévoyance Madelin : et si votre revenu s’arrêtait demain ?\n\nQuand on est indépendant, chef d’entreprise ou profession libérale, personne ne prend le relais en cas d’arrêt de travail…\n👉 Revenus en baisse\n👉 Charges qui continuent\n👉 Famille à protéger\n\nLa prévoyance Madelin permet justement de sécuriser votre situation :\n✅ Maintien de revenus en cas d’arrêt de travail\n✅ Protection de vos proches en cas d’invalidité ou décès\n✅ Cotisations déductibles fiscalement 💡\n\nAnticiper, ce n’est pas être pessimiste… c’est être responsable.\nVotre protection personnelle est aussi importante que celle de votre entreprise.\n\n#Prevoyance #Madelin #Independants #ProtectionSociale #Assurance"
   }
 ];
 
@@ -88,7 +104,7 @@ function buildCards() {
       <div class="card-body">
         <span class="card-tag"><span class="card-tag-dot"></span>${post.thematique}</span>
         <p class="card-preview">${post.preview}</p>
-        <pre class="card-full-text" id="full-${post.id}">${post.fullText}</pre>
+        <p class="card-full-text" id="full-${post.id}" style="white-space:pre-wrap;">${post.fullText}</p>
         <button class="btn-toggle" id="toggle-${post.id}" onclick="toggleText(${post.id})">Voir + <span class="arrow">▾</span></button>
         <div class="card-sep"></div>
         <div class="card-footer">
