@@ -282,44 +282,66 @@
 
 <script>
 // ============================================================
-//  DONNÉES — Récupérées via l'API Wix Data
+//  DONNÉES — Ajoute tes posts ici chaque mois
+//  Pour ajouter un post : copie un bloc {}, colle-le à la suite
+//  et remplis les champs. C'est tout !
 // ============================================================
-let posts = [];
+const posts = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=90",
+    thematique: "Prévoyance",
+    preview: "Saviez-vous que 1 actif sur 3 n'est pas correctement couvert en cas d'arrêt de travail ? Pourtant, les conséquences financières peuvent être lourdes…",
+    fullText: `Saviez-vous que 1 actif sur 3 n'est pas correctement couvert en cas d'arrêt de travail ? Pourtant, les conséquences financières peuvent être lourdes.
 
-async function loadPosts() {
-  try {
-    const response = await fetch(
-      "https://www.wixapis.com/wix-data/v2/items/query",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "wix-site-id": "7998dc12-3f4c-4293-a9e0-6ac96b336e21"
-        },
-        body: JSON.stringify({
-          dataCollectionId: "AssuresoPosts",
-          query: { paging: { limit: 100 } }
-        })
-      }
-    );
-    const data = await response.json();
-    if (data.dataItems && data.dataItems.length > 0) {
-      posts = data.dataItems.map(item => ({
-        id: item.id,
-        image: item.data.image ? item.data.image : "",
-        imageUrl: item.data.imageUrl ? item.data.imageUrl : item.data.image,
-        thematique: item.data.thematique || "",
-        preview: item.data.preview || "",
-        fullText: item.data.fullText || ""
-      }));
-      buildCards();
-    } else {
-      document.getElementById('contentGrid').innerHTML = '<p style="padding:20px;color:#666;">Aucun contenu disponible pour le moment.</p>';
-    }
-  } catch(e) {
-    console.error("Erreur chargement posts:", e);
+💡 En cas d'arrêt maladie, la Sécurité Sociale verse des indemnités journalières plafonnées. Pour un indépendant ou un TNS, la situation est encore plus précaire.
+
+C'est là qu'intervient une bonne prévoyance : elle compense la perte de revenus et vous permet de traverser cette période difficile sans compromettre votre niveau de vie.
+
+👉 Prenons 30 minutes pour faire le point sur votre couverture actuelle. Le bilan est offert et sans engagement.
+
+#Prévoyance #Assurance #ProtectionFinancière #TNS`
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=90",
+    thematique: "Habitation",
+    preview: "Locataire ou propriétaire, votre assurance habitation vous couvre-t-elle vraiment en cas de sinistre ? Beaucoup de gens découvrent les limites de leur contrat… au mauvais moment.",
+    fullText: `Locataire ou propriétaire, votre assurance habitation vous couvre-t-elle vraiment en cas de sinistre ? Beaucoup de gens découvrent les limites de leur contrat… au mauvais moment.
+
+🏠 Vol, dégât des eaux, incendie : les exclusions de garanties sont souvent méconnues.
+
+Voici 3 points à vérifier absolument dans votre contrat :
+✔️ Le montant du capital mobilier garanti est-il à jour ?
+✔️ Êtes-vous couvert pour les objets de valeur (bijoux, matériel high-tech) ?
+✔️ La garantie recours des voisins est-elle incluse ?
+
+Un audit rapide de votre contrat peut vous éviter de mauvaises surprises. Contactez-moi !
+
+#AssuranceHabitation #Sinistre #ConseilAssurance`
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=90",
+    thematique: "Retraite",
+    preview: "La retraite, c'est dans longtemps… ou pas tant que ça. Chaque année qui passe sans épargne retraite, c'est une opportunité manquée.",
+    fullText: `La retraite, c'est dans longtemps… ou pas tant que ça. Chaque année qui passe sans épargne retraite, c'est une opportunité manquée de profiter des intérêts composés.
+
+📊 Exemple concret :
+→ 100€/mois dès 30 ans = capital bien plus élevé qu'en commençant à 45 ans, même en versant davantage.
+
+Les solutions existent : PER individuel, assurance-vie, contrat Madelin pour les TNS… chacune avec ses avantages fiscaux.
+
+🎯 Pas besoin d'attendre d'avoir "plus d'argent". On commence avec ce qu'on a, et on ajuste au fil du temps.
+
+Envie d'une simulation personnalisée ? Je suis là pour ça. 👇
+
+#Retraite #PER #EpargneRetraite #Assurance #ConseilPatrimoine`
   }
-}
+];
 
 // ============================================================
 //  RENDU DES CARTES
@@ -455,7 +477,7 @@ function showToast(msg) {
 // ============================================================
 //  INIT
 // ============================================================
-loadPosts();
+buildCards();
 </script>
 </body>
 </html>
