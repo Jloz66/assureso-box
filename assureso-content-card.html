@@ -3,17 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assureso – Carte Contenu</title>
+<title>Assureso – Contenu du mois</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #0D2B4E;
     --accent: #00C2A8;
-    --accent2: #FF6B35;
     --bg: #F4F6FA;
     --card-bg: #FFFFFF;
     --text: #1A1A2E;
-    --muted: #6B7A99;
     --border: #E2E8F4;
     --tag-bg: #EBF4FF;
     --tag-color: #0D2B4E;
@@ -24,367 +22,88 @@
     --facebook: #1877F2;
     --instagram: #E1306C;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 32px 20px;
-    min-height: 100vh;
-  }
-
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 28px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  /* CARD */
-  .card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    border: 1px solid var(--border);
-  }
-  .card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-4px);
-  }
-
-  /* IMAGE */
-  .card-image-wrap {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 4/3;
-    background: #dde3ee;
-  }
-  .card-image-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
-  }
-  .card:hover .card-image-wrap img {
-    transform: scale(1.04);
-  }
-
-  /* DOWNLOAD BUTTON */
-  .btn-download {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(6px);
-    border: none;
-    border-radius: 10px;
-    padding: 7px 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s, color 0.2s;
-    text-decoration: none;
-  }
-  .btn-download:hover {
-    background: var(--accent);
-    color: #fff;
-  }
-  .btn-download svg { flex-shrink: 0; }
-
-  /* BODY */
-  .card-body {
-    padding: 20px 22px 18px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  /* TAG */
-  .card-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--tag-bg);
-    color: var(--tag-color);
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 30px;
-    margin-bottom: 14px;
-    width: fit-content;
-    border: 1px solid var(--border);
-  }
-  .card-tag-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: inline-block;
-  }
-
-  /* TEXT */
-  .card-preview {
-    font-size: 14px;
-    line-height: 1.65;
-    color: var(--text);
-    font-weight: 400;
-  }
-  .card-full-text {
-    display: none;
-    font-size: 14px;
-    line-height: 1.65;
-    color: var(--text);
-    margin-top: 4px;
-    white-space: pre-wrap;
-  }
-  .card-full-text.visible {
-    display: block;
-    animation: fadeIn 0.25s ease;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* VOIR + BUTTON */
-  .btn-toggle {
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    padding: 8px 0 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.2s;
-    width: fit-content;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 32px 20px; min-height: 100vh; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
+  .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.3s ease, transform 0.3s ease; border: 1px solid var(--border); }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+  .card-image-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; background: #dde3ee; }
+  .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+  .card:hover .card-image-wrap img { transform: scale(1.04); }
+  .btn-download { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); border: none; border-radius: 10px; padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s, color 0.2s; text-decoration: none; }
+  .btn-download:hover { background: var(--accent); color: #fff; }
+  .card-body { padding: 20px 22px 18px; display: flex; flex-direction: column; flex: 1; }
+  .card-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); color: var(--tag-color); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border-radius: 30px; margin-bottom: 14px; width: fit-content; border: 1px solid var(--border); }
+  .card-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .card-preview { font-size: 14px; line-height: 1.65; color: var(--text); font-weight: 400; }
+  .card-full-text { display: none; font-size: 14px; line-height: 1.65; color: var(--text); margin-top: 4px; white-space: pre-wrap; }
+  .card-full-text.visible { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .btn-toggle { background: none; border: none; color: var(--accent); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; padding: 8px 0 0; display: flex; align-items: center; gap: 5px; transition: color 0.2s; width: fit-content; }
   .btn-toggle:hover { color: var(--primary); }
-  .btn-toggle .arrow {
-    display: inline-block;
-    transition: transform 0.25s ease;
-    font-style: normal;
-  }
+  .btn-toggle .arrow { display: inline-block; transition: transform 0.25s ease; }
   .btn-toggle.open .arrow { transform: rotate(180deg); }
-
-  /* SEPARATOR */
-  .card-sep {
-    height: 1px;
-    background: var(--border);
-    margin: 16px 0;
-  }
-
-  /* FOOTER */
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  /* COPY BUTTON */
-  .btn-copy {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-  }
+  .card-sep { height: 1px; background: var(--border); margin: 16px 0; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .btn-copy { display: flex; align-items: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.15s; }
   .btn-copy:hover { background: var(--accent); }
   .btn-copy.copied { background: #22c55e; }
-  .btn-copy:active { transform: scale(0.97); }
-
-  /* SOCIAL ICONS */
-  .social-icons {
-    display: flex;
-    gap: 8px;
-  }
-  .social-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s, opacity 0.2s;
-    text-decoration: none;
-  }
+  .social-icons { display: flex; gap: 8px; }
+  .social-btn { width: 34px; height: 34px; border-radius: 9px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, opacity 0.2s; text-decoration: none; }
   .social-btn:hover { transform: scale(1.1); opacity: 0.9; }
   .social-btn.linkedin { background: var(--linkedin); }
   .social-btn.facebook { background: var(--facebook); }
   .social-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
   .social-btn svg { fill: #fff; }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--primary);
-    color: #fff;
-    padding: 10px 22px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 9999;
-    white-space: nowrap;
-  }
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 9999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
-
-<!-- =============================================
-     EXEMPLES DE CARTES — À remplacer par ton CMS
-     ============================================= -->
 <div class="grid" id="contentGrid"></div>
-
-<!-- Toast notification -->
-<div class="toast" id="toast">✅ Texte copié dans le presse-papier !</div>
-
+<div class="toast" id="toast"></div>
 <script>
-// ============================================================
-//  DONNÉES — Ajoute tes posts ici chaque mois
-//  Pour ajouter un post : copie un bloc {}, colle-le à la suite
-//  et remplis les champs. C'est tout !
-// ============================================================
 const posts = [
   {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=90",
-    thematique: "Prévoyance",
-    preview: "Saviez-vous que 1 actif sur 3 n'est pas correctement couvert en cas d'arrêt de travail ? Pourtant, les conséquences financières peuvent être lourdes…",
-    fullText: `Saviez-vous que 1 actif sur 3 n'est pas correctement couvert en cas d'arrêt de travail ? Pourtant, les conséquences financières peuvent être lourdes.
-
-💡 En cas d'arrêt maladie, la Sécurité Sociale verse des indemnités journalières plafonnées. Pour un indépendant ou un TNS, la situation est encore plus précaire.
-
-C'est là qu'intervient une bonne prévoyance : elle compense la perte de revenus et vous permet de traverser cette période difficile sans compromettre votre niveau de vie.
-
-👉 Prenons 30 minutes pour faire le point sur votre couverture actuelle. Le bilan est offert et sans engagement.
-
-#Prévoyance #Assurance #ProtectionFinancière #TNS`
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=90",
-    thematique: "Habitation",
-    preview: "Locataire ou propriétaire, votre assurance habitation vous couvre-t-elle vraiment en cas de sinistre ? Beaucoup de gens découvrent les limites de leur contrat… au mauvais moment.",
-    fullText: `Locataire ou propriétaire, votre assurance habitation vous couvre-t-elle vraiment en cas de sinistre ? Beaucoup de gens découvrent les limites de leur contrat… au mauvais moment.
-
-🏠 Vol, dégât des eaux, incendie : les exclusions de garanties sont souvent méconnues.
-
-Voici 3 points à vérifier absolument dans votre contrat :
-✔️ Le montant du capital mobilier garanti est-il à jour ?
-✔️ Êtes-vous couvert pour les objets de valeur (bijoux, matériel high-tech) ?
-✔️ La garantie recours des voisins est-elle incluse ?
-
-Un audit rapide de votre contrat peut vous éviter de mauvaises surprises. Contactez-moi !
-
-#AssuranceHabitation #Sinistre #ConseilAssurance`
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=90",
-    thematique: "Retraite",
-    preview: "La retraite, c'est dans longtemps… ou pas tant que ça. Chaque année qui passe sans épargne retraite, c'est une opportunité manquée.",
-    fullText: `La retraite, c'est dans longtemps… ou pas tant que ça. Chaque année qui passe sans épargne retraite, c'est une opportunité manquée de profiter des intérêts composés.
-
-📊 Exemple concret :
-→ 100€/mois dès 30 ans = capital bien plus élevé qu'en commençant à 45 ans, même en versant davantage.
-
-Les solutions existent : PER individuel, assurance-vie, contrat Madelin pour les TNS… chacune avec ses avantages fiscaux.
-
-🎯 Pas besoin d'attendre d'avoir "plus d'argent". On commence avec ce qu'on a, et on ajuste au fil du temps.
-
-Envie d'une simulation personnalisée ? Je suis là pour ça. 👇
-
-#Retraite #PER #EpargneRetraite #Assurance #ConseilPatrimoine`
+    "id": 1771911407834,
+    "thematique": "Retraite",
+    "image": "https://static.wixstatic.com/media/c96fd4_5119de90c8ee4d8588004d82de4dad4b~mv2.jpg",
+    "imageUrl": "https://static.wixstatic.com/media/c96fd4_5119de90c8ee4d8588004d82de4dad4b~mv2.jpg",
+    "preview": "💰 PER : et si vous transformiez vos impôts en épargne ? Le Plan Épargne Retraite ne sert pas seulement à préparer l’avenir… 👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.",
+    "fullText": "💰 PER : et si vous transformiez vos impôts en épargne ?\n\nLe Plan Épargne Retraite ne sert pas seulement à préparer l’avenir…\n👉 Il permet aussi de réduire votre fiscalité dès aujourd’hui.\n\nPourquoi s’y intéresser maintenant ?\n✅ Déduction fiscale des versements\n✅ Constitution d’un capital pour la retraite\n✅ Sortie flexible selon vos projets\n\nLe bon réflexe : anticiper tôt pour se laisser le temps de faire travailler son épargne.\nVotre futur vous remerciera 😉\n\n#PER #Epargne #Retraite #Fiscalité #GestionDePatrimoine"
   }
 ];
 
-// ============================================================
-//  RENDU DES CARTES
-// ============================================================
 function buildCards() {
   const grid = document.getElementById('contentGrid');
   grid.innerHTML = posts.map(post => `
-    <article class="card" data-id="${post.id}">
+    <article class="card">
       <div class="card-image-wrap">
-        <img src="${post.image}" alt="${post.thematique}" loading="lazy">
-        <a class="btn-download" href="${post.imageUrl}" download="assureso-visuel-${post.id}.jpg" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
+        ${post.image ? `<img src="${post.image}" alt="${post.thematique}" loading="lazy">` : '<div style="height:100%;background:#dde3ee;display:flex;align-items:center;justify-content:center;color:#6B7A99">Pas d\'image</div>'}
+        ${post.image ? `<a class="btn-download" href="${post.imageUrl || post.image}" download="assureso-visuel.jpg" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Télécharger
-        </a>
+        </a>` : ''}
       </div>
       <div class="card-body">
         <span class="card-tag"><span class="card-tag-dot"></span>${post.thematique}</span>
         <p class="card-preview">${post.preview}</p>
         <pre class="card-full-text" id="full-${post.id}">${post.fullText}</pre>
-        <button class="btn-toggle" id="toggle-${post.id}" onclick="toggleText(${post.id})">
-          Voir + <span class="arrow">▾</span>
-        </button>
+        <button class="btn-toggle" id="toggle-${post.id}" onclick="toggleText(${post.id})">Voir + <span class="arrow">▾</span></button>
         <div class="card-sep"></div>
         <div class="card-footer">
           <button class="btn-copy" id="copy-${post.id}" onclick="copyText(${post.id})">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             Copier le texte
           </button>
           <div class="social-icons">
-            <a class="social-btn linkedin" href="#" onclick="shareLinkedin(${post.id}); return false;" title="Partager sur LinkedIn">
+            <a class="social-btn linkedin" href="#" onclick="shareLinkedin(${post.id}); return false;" title="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <a class="social-btn facebook" href="#" onclick="shareFacebook(${post.id}); return false;" title="Partager sur Facebook">
+            <a class="social-btn facebook" href="#" onclick="shareFacebook(${post.id}); return false;" title="Facebook">
               <svg width="16" height="16" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a class="social-btn instagram" href="#" onclick="shareInstagram(${post.id}); return false;" title="Partager sur Instagram">
+            <a class="social-btn instagram" href="#" onclick="shareInstagram(${post.id}); return false;" title="Instagram">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
           </div>
@@ -394,79 +113,39 @@ function buildCards() {
   `).join('');
 }
 
-// ============================================================
-//  TOGGLE TEXTE COMPLET
-// ============================================================
 function toggleText(id) {
   const full = document.getElementById(`full-${id}`);
-  const btn  = document.getElementById(`toggle-${id}`);
+  const btn = document.getElementById(`toggle-${id}`);
   const open = full.classList.toggle('visible');
   btn.classList.toggle('open', open);
-  btn.innerHTML = open
-    ? 'Voir – <span class="arrow">▾</span>'
-    : 'Voir + <span class="arrow">▾</span>';
+  btn.innerHTML = open ? 'Voir – <span class="arrow">▾</span>' : 'Voir + <span class="arrow">▾</span>';
 }
 
-// ============================================================
-//  COPIER LE TEXTE
-// ============================================================
 function copyText(id) {
   const post = posts.find(p => p.id === id);
   if (!post) return;
   navigator.clipboard.writeText(post.fullText).then(() => {
     const btn = document.getElementById(`copy-${id}`);
     btn.classList.add('copied');
-    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copié !`;
+    btn.innerHTML = '✅ Copié !';
     showToast('✅ Texte copié ! Collez-le directement sur votre réseau.');
-    setTimeout(() => {
-      btn.classList.remove('copied');
-      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier le texte`;
-    }, 2500);
-  }).catch(() => {
-    // Fallback pour anciens navigateurs
-    const ta = document.createElement('textarea');
-    ta.value = post.fullText;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('✅ Texte copié !');
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier le texte'; }, 2500);
   });
 }
 
-// ============================================================
-//  PARTAGE RÉSEAUX SOCIAUX
-// ============================================================
 function shareLinkedin(id) {
   const post = posts.find(p => p.id === id);
-  const text = encodeURIComponent(post.fullText);
-  const url = `https://www.linkedin.com/feed/?shareActive=true&text=${text}`;
-  window.open(url, '_blank');
+  window.open(`https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(post.fullText)}`, '_blank');
 }
-
 function shareFacebook(id) {
   const post = posts.find(p => p.id === id);
-  navigator.clipboard.writeText(post.fullText).then(() => {
-    showToast('✅ Texte copié ! Collez-le dans votre publication Facebook.');
-    window.open('https://www.facebook.com/', '_blank');
-  }).catch(() => {
-    window.open('https://www.facebook.com/', '_blank');
-  });
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre publication Facebook.'); window.open('https://www.facebook.com/', '_blank'); });
 }
-
 function shareInstagram(id) {
   const post = posts.find(p => p.id === id);
-  navigator.clipboard.writeText(post.fullText).then(() => {
-    showToast('✅ Texte copié ! Collez-le dans votre story ou post Instagram.');
-    window.open('https://www.instagram.com/', '_blank');
-  }).catch(() => {
-    window.open('https://www.instagram.com/', '_blank');
-  });
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre post Instagram.'); window.open('https://www.instagram.com/', '_blank'); });
 }
 
-// ============================================================
-//  TOAST
-// ============================================================
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -474,9 +153,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ============================================================
-//  INIT
-// ============================================================
 buildCards();
 </script>
 </body>
