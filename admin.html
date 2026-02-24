@@ -397,14 +397,25 @@
         <div class="form-group">
           <label>Thématique</label>
           <select id="fThematique">
+            <option>Plan Epargne Retraite</option>
+            <option>Assurance Vie</option>
+            <option>Epargne</option>
             <option>Prévoyance</option>
-            <option>Habitation</option>
-            <option>Retraite</option>
-            <option>Auto</option>
+            <option>Prévoyance Madelin</option>
+            <option>Prévoyance Collective</option>
             <option>Santé</option>
-            <option>Professionnelle</option>
-            <option>Patrimoine</option>
-            <option>Autre</option>
+            <option>Santé Madelin</option>
+            <option>Santé Collective</option>
+            <option>RC Décennale</option>
+            <option>Multirisque Professionnelle</option>
+            <option>RC Professionnelle</option>
+            <option>Assurance Cyber</option>
+            <option>Auto</option>
+            <option>Habitation</option>
+            <option>Moto</option>
+            <option>Protection Juridique</option>
+            <option>Immeuble</option>
+            <option>Garantie des Accidents de la Vie</option>
           </select>
         </div>
         <div class="form-group">
@@ -660,7 +671,7 @@ function buildCards() {
       <div class="card-body">
         <span class="card-tag"><span class="card-tag-dot"></span>\${post.thematique}</span>
         <p class="card-preview">\${post.preview}</p>
-        <pre class="card-full-text" id="full-\${post.id}">\${post.fullText}</pre>
+        <p class="card-full-text" id="full-\${post.id}" style="white-space:pre-wrap;">\${post.fullText}</p>
         <button class="btn-toggle" id="toggle-\${post.id}" onclick="toggleText(\${post.id})">Voir + <span class="arrow">▾</span></button>
         <div class="card-sep"></div>
         <div class="card-footer">
