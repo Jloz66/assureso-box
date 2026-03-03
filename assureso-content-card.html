@@ -6,37 +6,45 @@
 <title>Assureso – Contenu du mois</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #0D2B4E;
-    --accent: #00C2A8;
-    --bg: #F4F6FA;
-    --card-bg: #FFFFFF;
-    --text: #1A1A2E;
-    --border: #E2E8F4;
-    --tag-bg: #EBF4FF;
-    --tag-color: #0D2B4E;
-    --shadow: 0 4px 24px rgba(13,43,78,0.10);
-    --shadow-hover: 0 12px 40px rgba(13,43,78,0.18);
-    --radius: 18px;
-    --linkedin: #0077B5;
-    --facebook: #1877F2;
-    --instagram: #E1306C;
-  }
+  :root { --primary: #0D2B4E; --accent: #00C2A8; --bg: #F4F6FA; --card-bg: #FFFFFF; --text: #1A1A2E; --border: #E2E8F4; --tag-bg: #EBF4FF; --tag-color: #0D2B4E; --shadow: 0 4px 24px rgba(13,43,78,0.10); --shadow-hover: 0 12px 40px rgba(13,43,78,0.18); --radius: 18px; --linkedin: #0077B5; --facebook: #1877F2; --instagram: #E1306C; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 32px 20px; min-height: 100vh; }
+
+  /* FILTRES */
+  .filters { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+  .filter-btn { background: white; border: 2px solid var(--border); border-radius: 30px; padding: 8px 20px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--primary); }
+  .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
   .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.3s ease, transform 0.3s ease; border: 1px solid var(--border); }
   .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+  .card.hidden { display: none; }
+
+  /* IMAGE */
   .card-image-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; background: #dde3ee; }
   .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
   .card:hover .card-image-wrap img { transform: scale(1.04); }
-  .btn-download { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); border: none; border-radius: 10px; padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s, color 0.2s; text-decoration: none; }
+
+  /* VIDEO */
+  .card-video-wrap { position: relative; aspect-ratio: 4/3; background: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
+  .card-video-wrap video { width: 100%; height: 100%; object-fit: cover; }
+  .video-play-btn { position: absolute; width: 60px; height: 60px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; pointer-events: none; }
+  .card-video-wrap:hover .video-play-btn { transform: scale(1.1); }
+
+  /* MODAL VIDEO */
+  .video-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9998; align-items: center; justify-content: center; }
+  .video-modal.open { display: flex; }
+  .video-modal video { max-width: 90vw; max-height: 85vh; border-radius: 12px; }
+  .video-modal-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 32px; cursor: pointer; background: none; border: none; line-height: 1; }
+
+  .btn-download { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); border: none; border-radius: 10px; padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s, color 0.2s; }
   .btn-download:hover { background: var(--accent); color: #fff; }
+
   .card-body { padding: 20px 22px 18px; display: flex; flex-direction: column; flex: 1; }
   .card-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); color: var(--tag-color); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border-radius: 30px; margin-bottom: 14px; width: fit-content; border: 1px solid var(--border); }
   .card-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
   .card-preview { font-size: 14px; line-height: 1.65; color: var(--text); font-weight: 400; }
-  .card-full-text { display: none; font-size: 14px; line-height: 1.65; color: var(--text); margin-top: 4px; white-space: pre-wrap; }
+  .card-full-text { display: none; font-size: 14px; line-height: 1.65; color: var(--text); margin-top: 4px; white-space: pre-wrap; font-family: 'DM Sans', sans-serif; }
   .card-full-text.visible { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   .btn-toggle { background: none; border: none; color: var(--accent); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; padding: 8px 0 0; display: flex; align-items: center; gap: 5px; transition: color 0.2s; width: fit-content; }
@@ -45,14 +53,14 @@
   .btn-toggle.open .arrow { transform: rotate(180deg); }
   .card-sep { height: 1px; background: var(--border); margin: 16px 0; }
   .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .btn-copy { display: flex; align-items: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+  .btn-copy { display: flex; align-items: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
   .btn-copy:hover { background: var(--accent); }
   .btn-copy.copied { background: #22c55e; }
   .social-icons { display: flex; gap: 8px; }
   .social-btn { width: 34px; height: 34px; border-radius: 9px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, opacity 0.2s; text-decoration: none; }
   .social-btn:hover { transform: scale(1.1); opacity: 0.9; }
-  .social-btn.linkedin { background: var(--linkedin); }
-  .social-btn.facebook { background: var(--facebook); }
+  .social-btn.linkedin { background: #0077B5; }
+  .social-btn.facebook { background: #1877F2; }
   .social-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
   .social-btn svg { fill: #fff; }
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 9999; }
@@ -60,8 +68,25 @@
 </style>
 </head>
 <body>
+
+<!-- FILTRES -->
+<div class="filters">
+  <button class="filter-btn active" onclick="filterPosts('all', this)">Tout</button>
+  <button class="filter-btn" onclick="filterPosts('visuel', this)">🖼️ Visuels</button>
+  <button class="filter-btn" onclick="filterPosts('video', this)">🎬 Vidéos</button>
+  <button class="filter-btn" onclick="filterPosts('infographie', this)">📊 Infographies</button>
+</div>
+
 <div class="grid" id="contentGrid"></div>
+
+<!-- MODAL VIDEO -->
+<div class="video-modal" id="videoModal">
+  <button class="video-modal-close" onclick="closeVideo()">✕</button>
+  <video id="modalVideo" controls></video>
+</div>
+
 <div class="toast" id="toast"></div>
+
 <script>
 const posts = [
   {
@@ -87,12 +112,51 @@ const posts = [
     "imageUrl": "https://static.wixstatic.com/media/c96fd4_c5db8a9b45f4433fbf2caacb3a950abe~mv2.jpg",
     "preview": "🛡️ Prévoyance Madelin : et si votre revenu s’arrêtait demain ? Quand on est indépendant, chef d’entreprise ou profession libérale, personne ne prend le relais en cas d’arrêt de travail…",
     "fullText": "🛡️ Prévoyance Madelin : et si votre revenu s’arrêtait demain ?\n\nQuand on est indépendant, chef d’entreprise ou profession libérale, personne ne prend le relais en cas d’arrêt de travail…\n👉 Revenus en baisse\n👉 Charges qui continuent\n👉 Famille à protéger\n\nLa prévoyance Madelin permet justement de sécuriser votre situation :\n✅ Maintien de revenus en cas d’arrêt de travail\n✅ Protection de vos proches en cas d’invalidité ou décès\n✅ Cotisations déductibles fiscalement 💡\n\nAnticiper, ce n’est pas être pessimiste… c’est être responsable.\nVotre protection personnelle est aussi importante que celle de votre entreprise.\n\n#Prevoyance #Madelin #Independants #ProtectionSociale #Assurance"
+  },
+  {
+    "id": 1772523473288,
+    "type": "video",
+    "thematique": "Plan Epargne Retraite",
+    "preview": "test",
+    "fullText": "ceci est un test video sur le PER",
+    "image": "",
+    "imageUrl": "",
+    "video": "raw.githubusercontent.com/Jloz66/assureso-box/main/videos/Assureso.MOV",
+    "videoPoster": "raw.githubusercontent.com/Jloz66/assureso-box/main/videos/Assureso.MOV"
   }
 ];
 
-function downloadImage(url) {
+function filterPosts(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (type === 'all' || card.dataset.type === type) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+function openVideo(url) {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  video.src = url;
+  modal.classList.add('open');
+  video.play();
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  video.pause();
+  video.src = '';
+  modal.classList.remove('open');
+}
+
+function downloadFile(url) {
   fetch(url)
-    .then(response => response.blob())
+    .then(r => r.blob())
     .then(blob => {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -105,19 +169,34 @@ function downloadImage(url) {
 
 function buildCards() {
   const grid = document.getElementById('contentGrid');
-  grid.innerHTML = posts.map(post => `
-    <article class="card">
+  grid.innerHTML = posts.map(post => {
+    const isVideo = post.type === 'video';
+    const mediaHtml = isVideo ? `
+      <div class="card-video-wrap" onclick="openVideo('${post.video}')">
+        ${post.videoPoster ? `<img src="${post.videoPoster}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;">` : ''}
+        <div class="video-play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0D2B4E"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <button class="btn-download" onclick="event.stopPropagation(); downloadFile('${post.video}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Télécharger
+        </button>
+      </div>` : `
       <div class="card-image-wrap">
-        ${post.image ? `<img src="${post.image}" alt="${post.thematique}" loading="lazy">` : '<div style="height:100%;background:#dde3ee;display:flex;align-items:center;justify-content:center;color:#6B7A99">Pas d\'image</div>'}
-        ${post.image ? `<button class="btn-download" onclick="downloadImage('${post.imageUrl || post.image}')">
+        ${post.image ? `<img src="${post.image}" alt="${post.thematique}" loading="lazy">` : '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#6B7A99">Pas d\'image</div>'}
+        ${post.image ? `<button class="btn-download" onclick="downloadFile('${post.imageUrl || post.image}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Télécharger
         </button>` : ''}
-      </div>
+      </div>`;
+
+    return `
+    <article class="card" data-type="${post.type || 'visuel'}">
+      ${mediaHtml}
       <div class="card-body">
         <span class="card-tag"><span class="card-tag-dot"></span>${post.thematique}</span>
         <p class="card-preview">${post.preview}</p>
-        <p class="card-full-text" id="full-${post.id}" style="white-space:pre-wrap;">${post.fullText}</p>
+        <p class="card-full-text" id="full-${post.id}" style="white-space:pre-wrap;font-family:'DM Sans',sans-serif;">${post.fullText}</p>
         <button class="btn-toggle" id="toggle-${post.id}" onclick="toggleText(${post.id})">Voir + <span class="arrow">▾</span></button>
         <div class="card-sep"></div>
         <div class="card-footer">
@@ -138,8 +217,8 @@ function buildCards() {
           </div>
         </div>
       </div>
-    </article>
-  `).join('');
+    </article>`;
+  }).join('');
 }
 
 function toggleText(id) {
@@ -164,7 +243,7 @@ function copyText(id) {
 
 function shareLinkedin(id) {
   const post = posts.find(p => p.id === id);
-  window.open(`https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(post.fullText)}`, '_blank');
+  navigator.clipboard.writeText(post.fullText).then(() => { showToast('✅ Texte copié ! Collez-le dans votre publication LinkedIn.'); window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank'); });
 }
 function shareFacebook(id) {
   const post = posts.find(p => p.id === id);
